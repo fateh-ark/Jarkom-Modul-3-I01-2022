@@ -7,3 +7,11 @@ apt-get update
 apt-get install squid -y
 wait
 echo "squid established"
+
+cat /root/squid.conf > /etc/squid/squid.conf
+wait
+echo "squid configured"
+
+service squid restart
+wait
+echo "squid service restarted"
