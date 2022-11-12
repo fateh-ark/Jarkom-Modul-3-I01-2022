@@ -278,7 +278,7 @@ Put the following lines to /etc/bind/**named.conf.options** on WISE:
 ```conf
 options {
     directory "/var/cache/bind";
-    
+
     forwarders{
         192.168.122.1;
     };
@@ -349,70 +349,3 @@ visible_hostname Berlint
 http_access allow eden
 http_access allow switch1
 ```
-
-Used for identifying the 3 clients (Eden,SSS,Garden) to use the proxy server.
-
-Additional configs are as follows:
-
-### Requirement 1
-
-> Client can only access the internet outside (other than) working days & hours (Monday-Friday 08.00-17.00) and holidays (could access 24 hours a day)
-
-Append the following to /etc/squid/**squid.conf** in Berlint:
-
-```conf
-acl workinghour time M T W H F 08:00-17:00
-
-http_access deny all workinghour
-http_access allow all
-```
-
-+ `acl workinghour time M T W H F 08:00-17:00` defines the working hour of **Monday-Friday 08.00-17.00**.
-+ the last 2 lines tells that it will deny all connection within the specified time, else (on holiday or outside of working hour) it will allow all connection.
-
-### Requirement 2
-
-> As for the working days and hours according to number (1), client could only access loid-work.com and franky-work.com domain
-
-Append the following to /etc/squid/**squid.conf** in Berlint:
-
-```conf
-acl loidfranky src 10.36.3.0/24
-
-http_access allow loidfranky workinghour
-http_access deny loidfranky
-```
-
-Loidyfrank is assigned as the rest of the clients in the switch 3 subnet. The DNS server haven't been configured for it.
-
-### Requirement 3
-
-> When the internet access is opened, client is prohibited from accessing web without HTTPS. (HTTP web example: http://example.com)
-
-Append the following to /etc/squid/**squid.conf** in Berlint:
-
-```conf
-acl httpsport port 443 8443
-
-http_access deny !httpsport
-```
-
-Denies all ports except from those HTTPS assigned port such as **443 & 8433**. 
-
-### Requirement 4
-
-> In order to save usage, internet access is limited to a maximum speed of 128 Kbps on each host (Kbps = kilobits per second; check on each host, when 2 hosts access the internet at the same time, both get a maximum speed of 128 Kbps)
-
-Not Done.
-
-### Requirement 5
-
-> After being implemented, it turns out that rule number (4) decreases the productivity during weekdays, thus speed restrictions are only applied to the internet access on holidays
-
-Not Done
-
-# Revisions & Dificulties
-
-+ Proxy has not been fully configured as per according to the questions
-+ We are not sure if the proxy server are working or not.
-+ MAC address changes everytime the GNS3 project is closed, manual change are required for question 7 on each boot.
