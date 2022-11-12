@@ -295,7 +295,7 @@ options {
 
 ## Question 6
 
-> The length of time the DHCP server lends an IP address to client via Switch1 is 5 minutes, while the client via Switch3 is 10 minutes. With a maximum time allocated for borrowing an IP address is 115 minutes. 
+> The length of time the DHCP server lends an IP address to client via Switch1 is 5 minutes, while the client via Switch3 is 10 minutes. With a maximum time allocated for borrowing an IP address is 115 minutes.
 
 Put the following line to parts of /etc/dhcp/**dhcpd.conf** on Westalis:
 
@@ -397,7 +397,7 @@ acl httpsport port 443 8443
 http_access deny !httpsport
 ```
 
-Denies all ports except from those HTTPS assigned port such as **443 & 8433**. 
+Denies all ports except from those HTTPS assigned port such as **443 & 8433**.
 
 ### Requirement 4
 
